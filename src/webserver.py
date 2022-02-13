@@ -1,6 +1,7 @@
 import socket
+from datetime import datetime
 
-class TCPServer:
+class WEBServer:
     # TCP通信を行うサーバを表すクラス
     def serve(self):
         print("=== サーバを起動します ===")
@@ -26,11 +27,27 @@ class TCPServer:
             with open("server_recv.txt", "wb") as f:
                 f.write(request)
 
+            # レスポンスボディを生成
+            response_body = "<html><body><h1>It works!</h1></body></html>"
+            # レスポンスラインを生成
+            response_line = "HTTP/1.1 200 OK\r\n"
+            # レスポンスヘッダを生成
+            response_header = ""
+            response_header += f"Date: {datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')}\r\n"
+            response_header += f"Content-Length: {len(response_body.encode())}\r\n"
+            response_header += "Connection: Close\r\n"
+            response_header += "Content-Type: text/html\r\n"
+            # ヘッダーとボディを空行でくっつけた上でbytesに変換し、レスポンス全体を生成する
+            response = (response_line + response_header + "\r\n" + response_body).encode()
+            # クライアントへレスポンスを送信する
+            client_socket.send(response)
+
+            # 通信を終了させる
             client_socket.close()
 
         finally:
             print("=== サーバーを停止します。 ===")
 
 if __name__ == '__main__':
-    server = TCPServer()
+    server = WEBServer()
     server.serve()

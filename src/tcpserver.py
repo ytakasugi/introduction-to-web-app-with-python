@@ -11,7 +11,7 @@ class TCPServer:
             server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
             # socketをlocalhostのポート8080番に割り当てる
-            server_socket.bind(("172.17.169.200", 8080))
+            server_socket.bind(("172.17.168.86", 8080))
             server_socket.listen(10)
 
             # 外部からの接続を待ち、接続があったらコネクションを確率する

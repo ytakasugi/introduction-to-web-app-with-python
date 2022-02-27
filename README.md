@@ -1,5 +1,9 @@
 # [伸び悩んでいる3年目Webエンジニアのための、Python Webアプリケーション自作入門](https://zenn.dev/bigen1925/books/introduction-to-web-application-with-python/viewer/preface)
 
+## python
+
+- [Python関連記事まとめ](https://note.nkmk.me/python-post-summary/)
+
 ## 文法メモ
 
 ### with文
@@ -43,3 +47,7 @@ with 開始処理 as 変数
 
 ### [例外処理](https://note.nkmk.me/python-try-except-else-finally/)
 
+### 関数、クラスメソッド
+
+- [Pythonで関数を定義・呼び出し（def, return）](https://note.nkmk.me/python-function-def-return/)
+- [クラスメソッドの引数にselfを使う理由](https://codor.co.jp/python/reason-to-use-self)

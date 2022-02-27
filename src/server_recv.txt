@@ -1,9 +1,9 @@
 GET /logo.png HTTP/1.1
-Host: 172.17.163.122:8080
+Host: 172.17.168.170:8080
 Connection: keep-alive
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36
 Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
-Referer: http://172.17.163.122:8080/index.html
+Referer: http://172.17.168.170:8080/index.html
 Accept-Encoding: gzip, deflate
 Accept-Language: ja,en-US;q=0.9,en;q=0.8
 

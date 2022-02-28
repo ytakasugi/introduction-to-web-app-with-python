@@ -1,4 +1,5 @@
 import os
+from pprint import pformat
 import textwrap
 import traceback
 from datetime import datetime
@@ -63,6 +64,27 @@ class WorkerThread(Thread):
                 # Content-Typeを指定
                 content_type = "text/html"
 
+                # レスポンスラインを生成
+                response_line = "HTTP/1.1 200 OK\r\n"
+
+            elif path == "/show_request":
+                html = f"""
+                    <html>
+                    <body>
+                        <h1>Request Line:</h1>
+                        <p>
+                            {method} {path} {http_version}
+                        </p>
+                        <h1>Headers:</h1>
+                        <pre>{pformat(request_header)}</pre>
+                        <h1>Body</h1>
+                        <pre>{request_body.decode("utf-8", "ignore")}</pre>
+                    </body>
+                    </html>
+                """
+                response_body = textwrap.dedent(html).encode()
+                # Content-Typeを指定
+                content_type = "text/html"
                 # レスポンスラインを生成
                 response_line = "HTTP/1.1 200 OK\r\n"
 

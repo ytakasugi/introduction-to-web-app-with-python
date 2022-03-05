@@ -7,6 +7,10 @@
 - [Ubuntu環境のPython](https://www.python.jp/install/ubuntu/index.html)
 - [Ubuntuでpythonのバージョンを切り換える](https://qiita.com/piyo_parfait/items/5abbe4bee2495a62acdc)
 
+## HTTP
+
+- [リトライ！ 触って学ぶTCP/IP](https://atmarkit.itmedia.co.jp/ait/series/2098/)
+
 ## 文法メモ
 
 ### with文

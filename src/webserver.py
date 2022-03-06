@@ -43,6 +43,6 @@ class WebServer:
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         # socketをlocalhostのポート8080番に割り当てる
-        server_socket.bind(("172.17.174.21", 8080))
+        server_socket.bind(("172.17.175.206", 8080))
         server_socket.listen(10)
         return server_socket

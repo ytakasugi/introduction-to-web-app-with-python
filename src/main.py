@@ -1,5 +1,5 @@
-from webserver import WebServer
+from xeon.server.server import Server
 
 if __name__ == "__main__":
     # Webserverクラスのserveメソッドを呼び出す
-    WebServer().serve()
+    Server().serve()

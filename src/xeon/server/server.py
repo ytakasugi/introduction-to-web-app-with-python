@@ -1,9 +1,9 @@
 import socket
 
-from workerthread import WorkerThread
+from worker import WorkerThread
 
 
-class WebServer:
+class Server:
     """
     Webサーバーを表すクラス
     """

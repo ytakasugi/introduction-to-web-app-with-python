@@ -1,5 +1,5 @@
-GET /parameters HTTP/1.1
-Host: 172.17.175.206:8080
+GET /user/123/profile HTTP/1.1
+Host: 172.17.174.190:8080
 Connection: keep-alive
 Upgrade-Insecure-Requests: 1
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36

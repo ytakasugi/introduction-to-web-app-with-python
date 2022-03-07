@@ -1,6 +1,6 @@
 import socket
 
-from worker import WorkerThread
+from web.server.worker import Worker
 
 
 class Server:
@@ -26,7 +26,7 @@ class Server:
                 print(f"=== Server: クライアントとの接続が完了しました remote_address: {address} ===")
 
                 # クライアントを処理するスレッドを作成
-                thread = WorkerThread(client_socket, address)
+                thread = Worker(client_socket, address)
                 # スレッドを実行
                 thread.start()
 
@@ -43,6 +43,6 @@ class Server:
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         # socketをlocalhostのポート8080番に割り当てる
-        server_socket.bind(("172.17.175.206", 8080))
+        server_socket.bind(("172.17.174.190", 8080))
         server_socket.listen(10)
         return server_socket

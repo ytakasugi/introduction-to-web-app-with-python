@@ -7,8 +7,8 @@ from threading import Thread
 from typing import Tuple
 
 import settings
-from xeon.http.request import HTTPRequest
-from xeon.http.response import HTTPResponse
+from web.http.request import HTTPRequest
+from web.http.response import HTTPResponse
 from urls import URL_VIEW
 
 

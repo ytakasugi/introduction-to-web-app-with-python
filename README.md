@@ -58,3 +58,5 @@ with 開始処理 as 変数
 
 - [Pythonで関数を定義・呼び出し（def, return）](https://note.nkmk.me/python-function-def-return/)
 - [クラスメソッドの引数にselfを使う理由](https://codor.co.jp/python/reason-to-use-self)
+
+### [[python初心者向け]関数の引数のアスタリスク(*)の意味](https://dev.classmethod.jp/articles/what-does-asterisk-mean-at-args/)

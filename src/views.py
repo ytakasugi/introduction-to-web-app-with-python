@@ -1,3 +1,4 @@
+from shutil import which
 import textwrap
 import urllib.parse
 from datetime import datetime
@@ -5,20 +6,16 @@ from pprint import pformat
 
 from web.http.request import HTTPRequest
 from web.http.response import HTTPResponse
+from web.template.render import render
 
 
 def now(request: HTTPRequest) -> HTTPResponse:
     """
     現在時刻を表示するHTMLを生成する
     """
-    html = f"""\
-        <html>
-        <body>
-            <h1>Now: {datetime.now()}</h1>
-        </body>
-        </html>
-    """
-    body = textwrap.dedent(html).encode()
+    context = {"now": datetime.now()}
+    html = render("now.html", context)
+    body = html.encode()
     content_type = "text/html; charset=UTF-8"
 
     return HTTPResponse(body=body, content_type=content_type, status_code=200)

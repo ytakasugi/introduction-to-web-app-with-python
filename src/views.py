@@ -1,9 +1,8 @@
-from shutil import which
-import textwrap
 import urllib.parse
 from datetime import datetime
 from pprint import pformat
 
+from web.http.cookie import Cookie
 from web.http.request import HTTPRequest
 from web.http.response import HTTPResponse
 from web.template.render import render
@@ -15,33 +14,18 @@ def now(request: HTTPRequest) -> HTTPResponse:
     """
     context = {"now": datetime.now()}
     body = render("now.html", context)
-    content_type = "text/html; charset=UTF-8"
 
-    return HTTPResponse(body=body, content_type=content_type, status_code=200)
+    return HTTPResponse(body=body)
 
 
 def show_request(request: HTTPRequest) -> HTTPResponse:
     """
     HTTPリクエストの内容を表示するHTMLを生成する
     """
-    html = f"""\
-        <html>
-        <body>
-            <h1>Request Line:</h1>
-            <p>
-                {request.method} {request.path} {request.http_version}
-            </p>
-            <h1>Headers:</h1>
-            <pre>{pformat(request.headers)}</pre>
-            <h1>Body:</h1>
-            <pre>{request.body.decode("utf-8", "ignore")}</pre>
-        </body>
-        </html>
-    """
-    body = textwrap.dedent(html).encode()
-    content_type = "text/html; charset=UTF-8"
+    context = {"request": request, "headers": pformat(request.headers), "body": request.body.decode("utf-8", "ignore")}
+    body = render("show_request.html", context)
 
-    return HTTPResponse(body=body, content_type=content_type, status_code=200)
+    return HTTPResponse(body=body)
 
 
 def parameters(request: HTTPRequest) -> HTTPResponse:
@@ -52,37 +36,54 @@ def parameters(request: HTTPRequest) -> HTTPResponse:
     # GETリクエストの場合は、405を返す
     if request.method == "GET":
         body = b"<html><body><h1>405 Method Not Allowed</h1></body></html>"
-        content_type = "text/html; charset=UTF-8"
-        status_code = 405
+
+        return HTTPResponse(body=body, status_code=405)
+
+    elif request.method == "POST":
+        context = {"params": urllib.parse.parse_qs(request.body.decode())}
+        body = render("parameters.html", context)
+
+        return HTTPResponse(body=body)
+
+
+def user_profile(request: HTTPRequest) -> HTTPResponse:
+    context = {"user_id": request.params["user_id"]}
+
+    body = render("user_profile.html", context)
+
+    return HTTPResponse(body=body)
+
+
+def set_cookie(request: HTTPRequest) -> HTTPResponse:
+    return HTTPResponse(cookies=[Cookie(name="username", value="TARO")])
+
+
+def login(request: HTTPRequest) -> HTTPResponse:
+    if request.method == "GET":
+        body = render("login.html", {})
+        return HTTPResponse(body=body)
 
     elif request.method == "POST":
         post_params = urllib.parse.parse_qs(request.body.decode())
-        html = f"""\
-            <html>
-            <body>
-                <h1>Parameters:</h1>
-                <pre>{pformat(post_params)}</pre>                        
-            </body>
-            </html>
-        """
-        body = textwrap.dedent(html).encode()
-        content_type = "text/html; charset=UTF-8"
-        status_code = 200
+        username = post_params["username"][0]
+        email = post_params["email"][0]
 
-    return HTTPResponse(body=body, content_type=content_type, status_code=status_code)
+        cookies = [
+            Cookie(name="username", value=username, max_age=30),
+            Cookie(name="email", value=email, max_age=30),
+        ]
 
-def user_profile(request: HTTPRequest) -> HTTPResponse:
-    user_id = request.params["user_id"]
-    html = f"""
-            <html>
-            <body>
-                <h1>プロフィール</h1>
-                <p>ID: {user_id}
-            </body>
-            </html>
-    """
-    body = textwrap.dedent(html).encode()
-    content_type = "text/html; charset=UTF-8"
-    status_code = 200
+        return HTTPResponse(status_code=302, headers={"Location": "/welcome"}, cookies=cookies)
 
-    return HTTPResponse(body=body, content_type=content_type, status_code=status_code)
+
+def welcome(request: HTTPRequest) -> HTTPResponse:
+    # Cookieにusernameが含まれていなければ、ログインしていないとみなして/loginへリダイレクト
+    if "username" not in request.cookies:
+        return HTTPResponse(status_code=302, headers={"Location": "/login"})
+
+    # Welcome画面を表示
+    username = request.cookies["username"]
+    email = request.cookies["email"]
+    body = render("welcome.html", context={"username": username, "email": email})
+
+    return HTTPResponse(body=body)
